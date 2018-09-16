@@ -5,11 +5,23 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 WebUI.openBrowser('')
 
-WebUI.navigateToUrl('http://localhost:3000/')
+WebUI.navigateToUrl('http://demoaut-mimic.kazurayam.com/9647_testbed.html')
 
-TestObject inputField = new TestObject()
-inputField.addProperty('xpath', ConditionType.EQUALS, "//input[@id='myInput']")
+TestObject outerIFrame = new TestObject()
+outerIFrame.addProperty('xpath', ConditionType.EQUALS, "//iframe[@id='wotcAccountWidgetModalIFrame']")
+WebUI.verifyElementPresent(outerIFrame, 10, FailureHandling.STOP_ON_FAILURE)
 
-WebUI.verifyElementPresent(inputField, 10, FailureHandling.STOP_ON_FAILURE)
+WebUI.switchToFrame(outerIFrame, 10)
+
+TestObject innerIFrame = new TestObject()
+innerIFrame.addProperty('xpath', ConditionType.EQUALS, "//iframe[@id='samlWidget']")
+WebUI.verifyElementPresent(innerIFrame, 10, FailureHandling.STOP_ON_FAILURE)
+
+//WebUI.switchToFrame(innerIFrame, 10)
+
+TestObject contentDiv = new TestObject()
+contentDiv.addProperty('xpath', ConditionType.EQUALS, "//div[@class='modalContent']")
+
+WebUI.verifyElementPresent(contentDiv, 10, FailureHandling.STOP_ON_FAILURE)
 
 WebUI.closeBrowser()
